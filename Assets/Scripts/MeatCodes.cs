@@ -33,11 +33,20 @@ public class MeatCodes : MonoBehaviour
         filteredItems.Clear();
         words = words.ToLower();
 
+        string[] keywords = words.Split(" ");
+
         foreach (MeatItem meat in items)
         {
-            if (meat.MeatName.Contains(words))
+            for(int i = 0; i < keywords.Length; i++)
             {
-                filteredItems.Add(meat);
+                if (!meat.MeatName.Contains(keywords[i]))
+                {
+                    break;
+                }
+                else if(i == keywords.Length - 1)
+                {
+                    filteredItems.Add(meat);
+                }
             }
         }
     }

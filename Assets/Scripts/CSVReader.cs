@@ -30,7 +30,7 @@ public class CSVReader
             lines[i] = lines[i].Trim();
 
             if (string.IsNullOrEmpty(lines[i]) || lines[i] == "," || lines[i].Contains("Region")) continue;
-            Debug.Log(lines[i]);
+            //Debug.Log(lines[i]);
 
             string[] parts = lines[i].Split(",");
 
