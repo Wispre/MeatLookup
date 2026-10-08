@@ -1,11 +1,11 @@
 public class MeatItem
 {
     public string MeatName;
-    public int MeatCode;
+    public string MeatID;
 
-    public MeatItem(string name, int code)
+    public MeatItem(string name, string id)
     {
         this.MeatName = name.ToLower();
-        this.MeatCode = code;
+        this.MeatID = id;
     }
 }

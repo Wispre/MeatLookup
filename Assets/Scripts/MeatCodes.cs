@@ -9,31 +9,15 @@ public class MeatCodes : MonoBehaviour
 
     private List<MeatItem> items = new();
     private List<MeatItem> filteredItems = new();
-    private StringBuilder sb = new StringBuilder();
+    private StringBuilder srtingBuilder = new StringBuilder();
+    private CSVReader csvReader;
+
+    private List<MeatItem> codes = new();
 
     private void Start()
     {
-        items.Add(new MeatItem("Whole Bird", 5200));
-        items.Add(new MeatItem("Twin Whole Birds", 801130));
-        items.Add(new MeatItem("Liver Cups", 308120));
-        items.Add(new MeatItem("Drum Thigh Combo", 200035));
-        items.Add(new MeatItem("Sanderson Chicken Breast", 200030));
-        items.Add(new MeatItem("Sanderson Drumsticks", 201140));
-        items.Add(new MeatItem("Sanderson Boneless Thighs", 201120));
-        items.Add(new MeatItem("Sanderson Breast Tenders", 201155));
-        items.Add(new MeatItem("Sanderson Boneless Breast", 201125));
-        items.Add(new MeatItem("Sanderson Thin Sliced Boneless Breast", 201145));
-        items.Add(new MeatItem("Sanderson Wings", 201150));
-        items.Add(new MeatItem("Sanderson Leg Quarters", 201130));
-        items.Add(new MeatItem("Sanderson Thighs", 201115));
-        items.Add(new MeatItem("Sanderson Wingettes", 6423));
-
-        items.Add(new MeatItem("Atlantic Salmon", 8031));
-        items.Add(new MeatItem("Coho Salmon", 991380));
-        items.Add(new MeatItem("Beef Flap Meat Marinated", 997080));
-        items.Add(new MeatItem("Beef Skirt Steak Marinated", 939500));
-        items.Add(new MeatItem("Beef Chuck Steak Marinated", 993315));
-        items.Add(new MeatItem("Chicken Leg Meat Marinated", 299574));
+        csvReader = new CSVReader();
+        csvReader.LoadCodes(items);
 
         Show("");
     }
@@ -49,24 +33,33 @@ public class MeatCodes : MonoBehaviour
         filteredItems.Clear();
         words = words.ToLower();
 
+        string[] keywords = words.Split(" ");
+
         foreach (MeatItem meat in items)
         {
-            if (meat.MeatName.Contains(words))
+            for(int i = 0; i < keywords.Length; i++)
             {
-                filteredItems.Add(meat);
+                if (!meat.MeatName.Contains(keywords[i]))
+                {
+                    break;
+                }
+                else if(i == keywords.Length - 1)
+                {
+                    filteredItems.Add(meat);
+                }
             }
         }
     }
 
     private void UpdateResults()
     {
-        sb.Clear();
+        srtingBuilder.Clear();
 
         for (int i = 0; i < filteredItems.Count; i++)
         {
-            sb.Append($"{filteredItems[i].MeatName}\n-{filteredItems[i].MeatCode}\n\n");
+            srtingBuilder.Append($"{filteredItems[i].MeatName}\n-{filteredItems[i].MeatID}\n\n");
         }
 
-        Results.text = sb.ToString();
+        Results.text = srtingBuilder.ToString();
     }
 }
